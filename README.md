@@ -1,2 +1,2 @@
-# Internet Speeds - Visual Analytics project a.y. 2022/2023
-Project for the Visual Analytics course at Sapienza - University of Rome.
+# Internet Speeds - Visual Analytics
+Project for the Visual Analytics course a.y. 2022/2023 at Sapienza - University of Rome.
