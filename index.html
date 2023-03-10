@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .divClass {
+            border: 1px solid #fff;
+        }
+    </style>
+</head>
+
+<body style="width:100vw; height:100vh; display:flex;  margin: 0px ; padding: 0px; overflow: hidden;">
+    <div id="leftSide" style="width: 40%; height:100%; border: 1px solid black">
+        <div id="map" style="width: 100%; height:70%; border: 1px solid blue">
+
+        </div>
+        <div id="detail" style="width: 100%; height:30%; border: 1px solid red">
+
+        </div>
+    </div>
+    <div id="rightSide" style="width: 60%; height:100%; border: 1px solid black">
+        <div id="rightTopSide" style="width:100%; height: 50%; border: 1px solid blue; display: flex">
+            <div style="width:15%">
+                <div id="optionsMap">
+                    <h3 style="text-align:center">Color map by:</h3>
+
+                    <form style="margin-left: 5%">
+                        <input type="radio" id="tiles" name="tiles" value="tiles">
+                        <label for="tiles">Tile</label><br>
+                        <input type="radio" id="city" name="city" value="city">
+                        <label for="city">City</label><br>
+                        <input type="radio" id="province" name="province" value="province">
+                        <label for="province">Province</label><br>
+                        <input type="radio" id="region" name="region" value="region">
+                        <label for="region">Region</label>
+                    </form>
+                </div>
+
+                <div id="optionsParallel" style="  border: 1px solid blue; overflow:auto">
+                    <h3 style="text-align:center">Group data by:</h3>
+
+                    <form style="margin-left: 5%">
+                        <input type="radio" id="tiles" name="tiles" value="tiles">
+                        <label for="tiles">Tile</label><br>
+                        <input type="radio" id="city" name="city" value="city">
+                        <label for="city">City</label><br>
+                        <input type="radio" id="province" name="province" value="province">
+                        <label for="province">Province</label><br>
+                        <input type="radio" id="region" name="region" value="region">
+                        <label for="region">Region</label>
+                    </form>
+                </div>
+            </div>
+
+
+            <div id="parallelPlot" style="width:85%;  border: 1px solid red; ">
+            </div>
+        </div>
+        <div id="rightBottomSide" style="width:100%; height: 50%; border: 1px solid red; display:flex">
+            <div id="scatterplot" style="width:85%; height: 100%; border: 1px solid red">
+            </div>
+            <div id="optionsMDS" style="width:15%; overflow:auto">
+                <h3 style="text-align:center">Attributes for MDS:</h3>
+                <form style="margin-left: 5%">
+                    <input type="checkbox" id="downloadSpeed" name="downloadSpeed" value="downloadSpeed" checked>
+                    <label for="downloadSpeed">Download Speed</label><br>
+                    <input type="checkbox" id="uploadSpeed" name="uploadSpeed" value="uploadSpeed" checked>
+                    <label for="uploadSpeed">Upload Speed</label><br>
+                    <input type="checkbox" id="latency" name="latency" value="latency" checked>
+                    <label for="latency">Latency</label><br>
+
+                    <input type="checkbox" id="tests" name="tests" value="tests" checked>
+                    <label for="tests">Tests</label><br>
+
+                    <input type="checkbox" id="stateWorks" name="stateWorks" value="stateWorks" checked>
+                    <label for="stateWorks">State of Works</label><br><br>
+
+                    <input type="submit" value="Compute"
+                        style="display:flex; width: fit-content; margin-left: auto; margin-right:auto">
+                </form>
+                <h3 style="text-align:center">Group data by:</h3>
+
+                <form style="margin-left: 5%">
+                    <input type="radio" id="tiles" name="tiles" value="tiles">
+                    <label for="tiles">Tile</label><br>
+                    <input type="radio" id="city" name="city" value="city">
+                    <label for="city">City</label><br>
+                    <input type="radio" id="province" name="province" value="province">
+                    <label for="province">Province</label><br>
+                    <input type="radio" id="region" name="region" value="region">
+                    <label for="region">Region</label>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
