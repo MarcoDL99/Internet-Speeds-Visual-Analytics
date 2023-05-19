@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{url_for('static',filename='/styles/styles.css')}}">
+    <script src="{{url_for('static',filename='d3/d3.min.js')}}"></script>
+    <script type="module" src="{{url_for('static',filename='src/parallelPlot.js')}}"></script>
+    <script type="module" src="{{url_for('static',filename='src/choropleth.js')}}"></script>
+    <script type="module" src="{{url_for('static',filename='src/scatterplot.js')}}"></script>
+    <script type="module" src="{{url_for('static',filename='src/main.js')}}"></script>
+
+</head>
+
+<body>
+
+    <!-- MAP & DETAIL-->
+
+
+    <div id="leftSide" style="width: 45%; height:100%; position: relative;" >
+        <div style="position:absolute; right: 0px; top:0px; background-color: white; display: block;width: 20%">
+            <div id="mapOptions" style=" border-left:solid 1px black; ">
+                <div style="display: block; width:60%; margin-left:20%; justify-content: center;" > 
+                    <button type="button" id="resetZoomMap" style="margin-top:5px;">Reset Zoom</button><br>
+                    <div style="display:flex; justify-content: center; ">
+                        <button id="zoomMap" style="width: 25px"> + </button>
+                        <button id="unzoomMap" style="width: 25px"> - </button>
+                    </div>
+                </div>
+                <p style="text-align:center; margin-top:2.5%; margin-bottom:2%;"><b>Choose level:</b></p>
+
+                <input type="radio" id="cityMAP" name="radioMAP" value="city" checked style="border-top: solid 1px black;">
+                <label for="cityMAP">City</label><br>
+                <input type="radio" id="provinceMAP" name="radioMAP" value="province">
+                <label for="provinceMAP">Province</label><br>
+                <input type="radio" id="regionMAP" name="radioMAP" value="region">
+                <label for="regionMAP">Region</label>
+                <!-- OPTIONS MAP-->
+    
+                <div id="optionsMap">
+                    <p style="text-align:center; margin-top:2.5%; margin-bottom:2%;"><b>Show:</b></p>
+    
+                    <form style="margin-right: 1%; width: fit-content; ">
+                        <input type="radio" id="downloadMAP" name="radioMAPData" value="downloadSpeed_mbps" checked>
+                        <label for="downloadMAP">Download Speed</label><br>
+                        <input type="radio" id="uploadMAP" name="radioMAPData" value="uploadSpeed_mbps">
+                        <label for="uploadMAP">Upload Speed</label><br>
+                        <input type="radio" id="latencyMAP" name="radioMAPData" value="latency_ms">
+                        <label for="latencyMAP">Latency</label><br>
+                        <input type="radio" id="testsMAP" name="radioMAPData" value="tests">
+                        <label for="testsMAP">Tests</label><br>
+                        <input type="radio" id="stateWorksMAP" name="radioMAPData" value="stateOfWorks">
+                        <label for="stateWorksMAP" id ="stateWorksMAPLabel">State of Works</label>
+                    </form>
+                </div>
+            </div>
+            <button type="button" id="showHideMapOptions" style="width:100%; border-radius: 0px; border:1px solid black">Hide Map Selectors</button>
+        </div>
+        <div id="choroplethMap" style="width: 100%; height:70%;" class="background">            
+        </div>
+
+
+        <!-- DETAIL-->
+        <div id="detail" style="width: 100%; height:30%; border-top: 2px solid black; display:inline-block">
+            <div style="display: inline-block; height:24%; width:100%">
+                <div style="display:flex; width:98%; margin-left: 1%; margin-right: 1%;">
+                    <div style="display: flex;  width: 100%; "> 
+                        <div style=" width:60%; max-width:60%; display:flex; border-right:solid black 1px;">
+                            <div class="detailLevel" id ="detailLevelCity" style="background-color: #cccccc;"><span style="margin-right:5%; font-weight: bold" id="cityCount">0</span> Cities  </div>
+                            <div class="detailLevel" id ="detailLevelProvince" style="margin-left:0.5%;"><span style="margin-right:5%; font-weight: bold" id ="provinceCount">0</span> Provinces </div>
+                            <div class="detailLevel" id ="detailLevelRegion"style="margin-left:0.5%"><span style="margin-right:5%; font-weight: bold" id = "regionCount">0</span> Regions </div>
+                        </div>
+                        <div style="max-width: 25%; display:flex; padding-top: 1%; padding-bottom:1%; font-size: medium; margin-right:auto; margin-left:auto;">Total tests: <span style="margin-left: 2px; font-weight: bold"  id = "totalTests">0</span></div>
+                    </div>
+                </div>
+
+
+                <div style="display:flex; border-top: solid black 1px; padding-top: 1%; padding-bottom:1%; justify-content: space-between">
+                    <div style="display: flex;  font-size: medium">AVG Download Speed (MBps)<span style="margin-left: 2px; font-weight: bold"id="avgDownload">0</span> </div>
+                    <div style="display: flex; font-size: medium">AVG Upload Speed (Mbps)<span style="margin-left: 2px; font-weight: bold "id="avgUpload">0</span> </div>
+                    <div style="display: flex; width: 25%; font-size: medium">AVG Latency (ms)<span style="margin-left:2px; font-weight: bold"  id = "avgLatency">0</span></div>
+                </div>
+            </div>
+            <div style="width:100%; height:75%; overflow-y:auto; border-collapse:collapse">
+                <table id="tableDetail">
+                    <thead id ="tableHead">
+                        <tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    <tbody>
+                </table>
+            </div>
+            
+                
+            
+        </div>
+    </div>
+
+
+    <div id="rightSide" style="width: 55%; height:100%; border-left: 2px solid black;">
+        <div id="rightTopSide" style="width:100%; height: 50%; border-bottom: 2px solid black; display: flex">
+            <!-- PARALLEL PLOT -->
+
+            <div id="parallelPlot" style="width:90%;" class="background">
+            </div>
+            <div id="optionsSCATTERPLOT" class="optionsBoxContainer" style="border-left: solid black 2px;">
+                
+                <div id="optionsParallel" class="optionsBox" style="padding-bottom:5%; border-bottom: double 7px blue">
+                    <h4 style="text-align:center">Group Parallel Plot data by:</h4>
+                    <form >
+                        <input type="radio" id="cityPARALLEL" name="radioPARALLEL" value="city" checked>
+                        <label for="cityPARALLEL">City</label><br>
+                        <input type="radio" id="provincePARALLEL" name="radioPARALLEL" value="province">
+                        <label for="provincePARALLEL">Province</label><br>
+                        <input type="radio" id="regionPARALLEL" name="radioPARALLEL" value="region">
+                        <label for="regionPARALLEL">Region</label>
+                    </form>
+                </div>
+                <div class="optionsBox">
+                    
+                    <h4 style="text-align:center">Scatter Plot<br>Choose Level:</h4>
+                    <form>
+                        <input type="radio" id="citySCATTERPLOT" name="radioSCATTERPLOT" value = "city" checked>
+                        <label for="citySCATTERPLOT">City</label><br>
+                        <input type="radio" id="provinceSCATTERPLOT" name="radioSCATTERPLOT" value = "province" >
+                        <label for="provinceSCATTERPLOT">Province</label><br>
+                        <input type="radio" id="regionSCATTERPLOT" name="radioSCATTERPLOT" value = "region" >
+                        <label for="regionSCATTERPLOT">Region</label>
+                    </form>
+                </div>
+                <div class="optionsBox" style="border-top:none">
+                    <h4 style="text-align:center">Attributes:</h4>
+                    <form >
+
+                        <input type="checkbox" id="downloadSCATTERPLOT" name="downloadSpeedSCATTERPLOT" value="downloadSpeed_mbps" checked>
+                        <label for="downloadSCATTERPLOT">Download Speed</label><br>
+
+                        <input type="checkbox" id="uploadSCATTERPLOT" name="uploadSpeedSCATTERPLOT" value="uploadSpeed_mbps" checked>
+                        <label for="uploadSCATTERPLOT">Upload Speed</label><br>
+
+                        <input type="checkbox" id="latencySCATTERPLOT" name="latencySCATTERPLOT" value ="latency_ms" checked>
+                        <label for="latencySCATTERPLOT">Latency</label><br>
+
+                        <input type="checkbox" id="testsSCATTERPLOT" name="testsSCATTERPLOT" value="tests" checked>
+                        <label for="testsSCATTERPLOT">Tests</label><br>
+
+                        <input type="checkbox" id="stateWorksSCATTERPLOT" name="stateWorksSCATTERPLOT" value="stateOfWorks" checked>
+                        <label for="stateWorksSCATTERPLOT" id ="stateWorksSCATTERPLOTLabel">State of Works</label>
+
+                        <button type="button" id="computeSCATTERPLOT"  class="buttonClass">Compute</button>
+
+                    </form>
+                </div>
+                
+
+            </div>
+        </div>
+
+        <!-- SCATTERPLOT -->
+
+
+        <div id="rightBottomSide" style="width:100%; height: 50%; border: 0px solid red; display:flex">
+            <!-- SCATTERPLOT OPTIONS -->
+
+            
+            <div id="scatterplot" style="width:100%; height:100% margin:auto; position:relative" class="background">
+                <div style="position:absolute; right:2px; top:2px"> 
+                <button type="button" id="brushDragToggle" >Activate Brushing</button>
+                <button type="button" id="resetZoomScatter" >Reset Zoom</button>
+                <button id="zoomScatter" style="width: 25px"> + </button>
+                <button id="unzoomScatter" style="width: 25px"> - </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
