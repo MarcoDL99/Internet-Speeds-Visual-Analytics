@@ -28,6 +28,8 @@ let scatterplotAttributes = { "downloadSpeed_mbps": true, "uploadSpeed_mbps": tr
 let mapLevel = "city";
 let mapData = "downloadSpeed_mbps";
 let mapOptionsShown = true
+let sortAttribute = "region"
+let sortAscending = true
 
 
 
@@ -865,14 +867,28 @@ detailElements.detailLevelRegion.addEventListener("click", () => {
     setDetailLevel("region")
 })
 setDetailLevel("city")
+sortAttribute = "region"
 
 
 function sortTable(attr) {
+    if(sortAttribute==attr){
+        sortAscending=!sortAscending
+    }
+    else{
+        sortAttribute=attr
+        sortAscending=true
+    }
+    console.log(sortAttribute)
     let objs = []
     dataset.selectedData[detailLevel].forEach(obj => {
         objs.push(dataset[detailLevel].get(obj)[0])
     })
-    objs.sort((a, b) => a[attr].toLowerCase() > b[attr].toLowerCase())
+    if(sortAscending){
+        objs.sort((a, b) => a[attr].toLowerCase() > b[attr].toLowerCase())
+    }
+    else{
+        objs.sort((a, b) => a[attr].toLowerCase() < b[attr].toLowerCase())
+    }
     dataset.selectedData[detailLevel] = []
     objs.forEach(obj => {
         dataset.selectedData[detailLevel].push(obj[detailLevel])
@@ -880,11 +896,23 @@ function sortTable(attr) {
     updateDetails()
 }
 function sortTableNumbers(attr) {
+    if(sortAttribute==attr){
+        sortAscending=!sortAscending
+    }
+    else{
+        sortAttribute=attr
+        sortAscending=true
+    }
     let objs = []
     dataset.selectedData[detailLevel].forEach(obj => {
         objs.push(dataset[detailLevel].get(obj)[0])
     })
-    objs.sort((a, b) => parseFloat(a[attr]) > parseFloat(b[attr]))
+    if(sortAscending){
+        objs.sort((a, b) => parseFloat(a[attr]) > parseFloat(b[attr]))
+    }
+    else{
+        objs.sort((a, b) => parseFloat(a[attr]) < parseFloat(b[attr]))
+    }
     dataset.selectedData[detailLevel] = []
     objs.forEach(obj => {
         dataset.selectedData[detailLevel].push(obj[detailLevel])
